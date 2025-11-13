@@ -91,7 +91,7 @@ htdocs (if using XAMPP)
 http://localhost/organ-donation-management-system/
 
 #LICENCE
-[MIT LICENCE]
+The project is under [MIT license](https://choosealicense.com/licenses/mit/)
 
 
 
