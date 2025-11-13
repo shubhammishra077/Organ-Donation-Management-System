@@ -90,5 +90,9 @@ htdocs (if using XAMPP)
 
 http://localhost/organ-donation-management-system/
 
+#LICENCE
+[MIT LICENCE]
+
+
 
 
