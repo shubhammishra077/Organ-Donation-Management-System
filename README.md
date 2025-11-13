@@ -1,9 +1,9 @@
 ﻿# Organ-donation-management-system
 A full-stack web application designed to streamline and digitalize the organ donation workflow. The system enables donors, recipients, and administrators to interact through a unified platform that ensures transparency, quick matching, and efficient data handling.
 
-[Organ donation management system Screenshot](https://i.imgur.com/mWM4kiC.png)
-[Organ donation management system Screenshot](https://i.imgur.com/N3ak4tk.png)
-[Organ donation management system Screenshot](https://i.imgur.com/IZyHSht.png)
+![Organ donation management system Screenshot](https://i.imgur.com/mWM4kiC.png)
+![Organ donation management system Screenshot](https://i.imgur.com/N3ak4tk.png)
+![Organ donation management system Screenshot](https://i.imgur.com/IZyHSht.png)
 
 # Donor Module
 
