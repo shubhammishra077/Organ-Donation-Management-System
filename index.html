@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Organ Donation Management System</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --muted: #6b7280;
+      --accent: #0f766e;
+      --accent-2: #065f46;
+      --danger: #dc2626;
+      --radius: 12px;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+      background: linear-gradient(180deg,var(--bg), #eef2f6 120%);
+      color: #0f172a;
+      -webkit-font-smoothing:antialiased;
+    }
+
+    header{
+      background: linear-gradient(90deg,var(--accent-2),var(--accent));
+      color:#fff;
+      padding:18px;
+      position:sticky;
+      top:0;
+      z-index:10;
+      box-shadow: 0 6px 18px rgba(2,6,23,0.12);
+    }
+    .wrap{ max-width:var(--max-width); margin:0 auto; padding:0 18px; display:flex; align-items:center; justify-content:space-between; gap:12px;}
+    header h1{ margin:0; font-size:1.05rem; letter-spacing:0.2px; }
+    nav{ display:flex; gap:8px; align-items:center; }
+    nav a{ color: #e6fffa; text-decoration:none; padding:8px 12px; border-radius:10px; font-weight:600; opacity:0.95; }
+    nav a:hover{ background: rgba(255,255,255,0.06); transform:translateY(-2px); }
+
+    /* HERO */
+    .hero{
+      max-width:var(--max-width);
+      margin:26px auto;
+      display:grid;
+      grid-template-columns: 1fr 360px;
+      gap:22px;
+      align-items:center;
+      padding:0 18px;
+    }
+    @media (max-width:980px){ .hero{ grid-template-columns:1fr; } .col-aside{order:2} }
+    .card{ background:var(--card); border-radius:var(--radius); padding:20px; box-shadow: 0 10px 30px rgba(15,23,42,0.06); }
+
+    .hero-left h2{ margin:0 0 10px 0; font-size:1.6rem; color:#042f2e; }
+    .lead{ color:var(--muted); margin:0 0 18px 0; font-size:1rem; }
+
+    .cta-row{ display:flex; gap:12px; flex-wrap:wrap; margin-top:12px; }
+    .btn{
+      padding:10px 16px; border-radius:10px; font-weight:700; border:none; cursor:pointer;
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+    .btn-primary{ background: linear-gradient(90deg,var(--accent),var(--accent-2)); color:#fff; box-shadow:0 8px 20px rgba(6,95,70,0.12); }
+    .btn-outline{ background:transparent; color:var(--accent-2); border:1px solid rgba(6,95,70,0.12); }
+
+    /* urgency badges */
+    .badges{ display:flex; gap:10px; margin-top:18px; flex-wrap:wrap;}
+    .badge{ padding:10px 12px; border-radius:10px; font-weight:700; display:inline-flex; gap:8px; align-items:center; }
+    .badge.critical{ background: linear-gradient(90deg,#ffe6e6, #ffd6d6); color: var(--danger); border:1px solid rgba(220,38,38,0.08); }
+    .badge.high{ background: linear-gradient(90deg,#fff7e6,#fff2cc); color:#a16207; border:1px solid rgba(161,98,7,0.06); }
+    .badge.normal{ background: linear-gradient(90deg,#ecfeff,#dffbfb); color: #065f46; border:1px solid rgba(6,95,70,0.06); }
+
+    /* aside stats */
+    .col-aside .stat{ display:flex; gap:12px; align-items:center; margin-bottom:12px; }
+    .stat .num{ font-size:1.6rem; font-weight:800; color:var(--accent-2); }
+    .stat .label{ color:var(--muted); font-size:0.95rem; }
+
+    /* three cards row */
+    .grid3{ max-width:var(--max-width); margin:18px auto; padding:0 18px; display:grid; grid-template-columns: repeat(3,1fr); gap:16px; }
+    @media (max-width:980px){ .grid3{ grid-template-columns:1fr; } }
+
+    .card h3{ margin:0 0 8px 0; font-size:1.05rem; color:#042f2e; }
+    .card p{ color:var(--muted); margin:0; font-size:0.95rem; }
+
+    /* privacy / trust */
+    .privacy{ display:flex; gap:14px; align-items:flex-start; margin-top:12px; }
+    .privacy svg{ flex-shrink:0; margin-right:6px; }
+
+    /* contact panel */
+    .contact{ max-width:var(--max-width); margin:18px auto; padding:0 18px; display:flex; gap:16px; align-items:stretch; }
+    @media (max-width:980px){ .contact{ flex-direction:column; } }
+    .contact .contact-card{ flex:1; padding:18px; border-radius:12px; background:linear-gradient(180deg,#fff,#fbfdff); border:1px solid #eef3f7; box-shadow: 0 8px 24px rgba(15,23,42,0.04); }
+    .contact .contact-card h4{ margin:0 0 8px 0; }
+    .contact .contact-card p{ margin:0; color:var(--muted) }
+
+    footer{ text-align:center; color:var(--muted); padding:18px; margin-top:24px; }
+
+    /* small helpers */
+    .muted{ color:var(--muted); }
+    a.donor-btn{ text-decoration:none; display:inline-block; padding:10px 14px; border-radius:10px; background:#fff; color:#042f2e; border:2px solid #e6eef6; font-weight:800; }
+    .section-title{ color:#0f172a; font-weight:800; margin-bottom:8px; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="wrap">
+      <h1>Organ Donation Management System</h1>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="register.html">Register</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="hero" role="main">
+    <!-- Left hero -->
+    <div class="hero-left">
+      <div class="card">
+        <h2>Give hope. Save lives.</h2>
+        <p class="lead">A trusted platform that connects donors and recipients, prioritizes urgent cases, and protects your privacy. Whether you're registering as a donor or seeking an organ — we guide you every step.</p>
+
+        <div class="cta-row">
+          <a href="register.html" class="btn btn-primary">Register Now</a>
+          <a href="contact.html" class="btn btn-outline">Get Support</a>
+          <a href="#how-we-help" class="donor-btn">Learn How We Help</a>
+        </div>
+
+        <div class="badges" aria-hidden="true" style="margin-top:18px;">
+          <div class="badge critical">⚠️ Critical cases prioritized</div>
+          <div class="badge high">⏱ High urgency routing</div>
+          <div class="badge normal">🫀 Donor-recipient matching</div>
+        </div>
+
+        <div style="margin-top:16px;" class="muted">
+          <strong>Urgency explained:</strong>
+          <p style="margin:8px 0 0 0;">Cases marked <span style="font-weight:800;color:var(--danger)">Critical</span> receive immediate alerts to nearby hospitals and registered donors. Our matching algorithm factors blood group, location, and urgency to speed up lifesaving transfers.</p>
+        </div>
+      </div>
+
+      <!-- Info / three cards -->
+      <div class="grid3" style="margin-top:18px;">
+        <div class="card">
+          <h3 id="how-we-help">How we help</h3>
+          <p>We coordinate with hospitals, transport services and registered donors to reduce wait time. Our volunteers assist with paperwork and logistics so families can focus on the patient.</p>
+        </div>
+
+        <div class="card">
+          <h3>Success & Impact</h3>
+          <p>We track matches, successful transplants and response times. Quick coordination increases survival chances — even minutes matter.</p>
+        </div>
+
+        <div class="card">
+          <h3>Get involved</h3>
+          <p>Register as donor, volunteer, or share our resources. Awareness and timely action are as important as medical care.</p>
+        </div>
+      </div>
+
+      <!-- Privacy & Trust -->
+      <div class="card" style="margin-top:18px;">
+        <div class="section-title">Privacy & Data Care</div>
+        <div class="privacy">
+          <div style="flex:1;">
+            <p class="muted">We treat personal and medical details with the highest care. Minimal data is collected and shared only with authorized medical teams during matching. Your consent is obtained before any public listing.</p>
+            <ul style="margin:10px 0 0 18px;color:var(--muted)">
+              <li>🔒 Data encrypted at rest and transit (server integration required)</li>
+              <li>🧾 Consent recorded for each registration</li>
+              <li>🚫 No public sharing of contact info without explicit permission</li>
+            </ul>
+          </div>
+          <div style="width:160px; text-align:center;">
+            <!-- simple lock icon -->
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <rect x="2" y="7" width="20" height="14" rx="2" stroke="#065f46" stroke-width="1.2" fill="#ecfffb"/>
+              <path d="M7 7V5a5 5 0 0 1 10 0v2" stroke="#065f46" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="12" cy="14" r="1.5" fill="#065f46"/>
+            </svg>
+            <div class="muted" style="font-size:0.9rem;margin-top:8px;">Privacy-first by design</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right aside -->
+    <aside class="col-aside">
+      <div class="card">
+        <div class="stat">
+          <div>
+            <div class="num">1,254</div>
+            <div class="label">Registered Donors</div>
+          </div>
+        </div>
+
+        <div class="stat">
+          <div>
+            <div class="num">312</div>
+            <div class="label">Successful Matches</div>
+          </div>
+        </div>
+
+        <div class="stat">
+          <div>
+            <div class="num">18</div>
+            <div class="label">Avg Response (hrs)</div>
+          </div>
+        </div>
+
+        <hr style="border:none;border-top:1px solid #eef3f7;margin:12px 0;">
+
+        <div style="font-weight:800;color:#042f2e;margin-bottom:8px;">Immediate help</div>
+        <p class="muted" style="margin:0 0 12px 0;">If it's an emergency, call the listed hospital first and then reach us for coordination.</p>
+        <div style="display:flex;gap:8px;flex-direction:column">
+          <a class="btn btn-primary" href="tel:+919791488767">Call Emergency: 9791488767</a>
+          <a class="btn btn-outline" href="contact.html">Email: Uttaranchalhospital@gmail.com</a>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- contact & reference -->
+  <section class="contact" aria-labelledby="reference">
+    <div class="contact-card card">
+      <h4 id="reference">Reference / Contact</h4>
+      <p class="muted" style="margin-top:6px;"><strong>Address:</strong> Arcadia grant ,premnagar Dehradun,Uttarakhand, PIN 248007</p>
+      <p class="muted" style="margin-top:6px;"><strong>Phone:</strong> 9791488767</p>
+      <p class="muted" style="margin-top:6px;"><strong>Email:</strong> Uttaranchalhospital@gmail.com</p>
+      <p class="muted" style="margin-top:6px;"><strong>Fax:</strong> 04324-263666</p>
+    </div>
+
+    <div class="contact-card card" style="max-width:360px;">
+      <h4>Quick Actions</h4>
+      <p class="muted" style="margin:6px 0;">Register or check donor/recipient status quickly.</p>
+      <div style="display:flex;gap:8px;margin-top:8px;">
+        <a class="btn btn-primary" href="register.html">Register Now</a>
+        <a class="btn btn-outline" href="contact.html">Contact Team</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    © <span id="year"></span> Organ Donation Management System — Privacy-first • Compassion-led
+  </footer>
+
+  <script>
+    // small dynamic pieces
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // progressive enhancement: scroll-to hash smoothly
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', e=>{
+        e.preventDefault();
+        const target = document.querySelector(a.getAttribute('href'));
+        if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
+      });
+    });
+  </script>
+</body>
+</html>

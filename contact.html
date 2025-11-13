@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Organ Donation Management System — Contact</title>
+  <style>
+    /* keep your existing styles (same as you provided) */
+    :root { --bg:#f4f7fb; --card:#fff; --muted:#6b7280; --accent:#0f766e; --accent-2:#065f46; --radius:12px; }
+    *{box-sizing:border-box}
+    body{ margin:0; font-family:Inter, "Segoe UI", Roboto, Arial, sans-serif; background:linear-gradient(180deg,var(--bg),#eef2f6 120%); color:#0f172a; -webkit-font-smoothing:antialiased; }
+    header{ background: linear-gradient(90deg,var(--accent-2),var(--accent)); color:#fff; padding:18px; position:sticky; top:0; z-index:10; box-shadow:0 6px 18px rgba(2,6,23,0.12); }
+    .wrap{ max-width:var(--max-width); margin:0 auto; padding:0 18px; display:flex; align-items:center; justify-content:space-between; gap:12px; }
+
+    header h1{ margin:0; font-size:1.05rem; letter-spacing:0.2px; }
+    
+    nav{ display:flex; gap:8px; align-items:center; }
+    nav a{ color:#e6fffa; text-decoration:none; padding:8px 12px; border-radius:10px; font-weight:600; opacity:0.95; }
+    nav a:hover{ background: rgba(255,255,255,0.06); transform:translateY(-2px); }
+
+    main{ max-width:var(--max-width); margin:28px auto; padding:0 18px; display:grid; grid-template-columns: 1fr 360px; gap:22px; }
+    @media (max-width:980px){ main{ grid-template-columns:1fr; } }
+    .card{ background:var(--card); border-radius:var(--radius); padding:20px; box-shadow: 0 10px 30px rgba(15,23,42,0.06); }
+    h2{ margin:0 0 10px 0; color:#042f2e; }
+    p.lead{ color:var(--muted); margin:0 0 16px 0; }
+    form .grid{ display:grid; grid-template-columns: repeat(2,1fr); gap:12px; }
+    @media (max-width:880px){ form .grid{ grid-template-columns:1fr; } }
+    label{ font-size:0.9rem; color:#334155; display:block; margin-bottom:6px; font-weight:700; }
+    input[type="text"], input[type="email"], textarea, select { width:100%; padding:12px 14px; border-radius:10px; border:1px solid #e6eef6; background: linear-gradient(180deg,#fff,#fbfdff); outline:none; font-size:0.95rem; transition: box-shadow .14s ease, border-color .14s ease, transform .12s ease; box-shadow: 0 2px 8px rgba(16,24,40,0.02); }
+    input:focus, textarea:focus, select:focus { border-color: var(--accent); box-shadow: 0 8px 22px rgba(15,118,110,0.08); transform: translateY(-1px); }
+    textarea{ min-height:120px; resize:vertical; }
+    .actions{ display:flex; gap:10px; margin-top:10px; align-items:center; flex-wrap:wrap; }
+    .btn{ display:inline-flex; align-items:center; justify-content:center; padding:10px 14px; border-radius:10px; cursor:pointer; border:none; font-weight:700; letter-spacing:0.2px; transition: transform .12s ease, box-shadow .12s ease; }
+    .btn-primary{ background: linear-gradient(90deg,var(--accent),var(--accent-2)); color:white; box-shadow: 0 8px 20px rgba(6,95,70,0.12); }
+    .btn-outline{ background:transparent; color:var(--accent-2); border:1px solid rgba(6,95,70,0.12); }
+    .small{ font-size:0.85rem; color:var(--muted); margin-top:6px; }
+    .contact-info{ display:flex; flex-direction:column; gap:10px; }
+    .info-item{ padding:12px; border-radius:10px; background:linear-gradient(180deg,#fff,#fbfdff); border:1px solid #eef3f7; }
+    .info-item strong{ display:block; margin-bottom:6px; color:#042f2e; }
+    .toast{ display:none; margin-top:12px; padding:12px; border-radius:10px; background: linear-gradient(90deg,#ecfffa,#ddfbf7); border:1px solid rgba(6,95,70,0.08); color:#064e3b; font-weight:700; }
+    footer{ text-align:center; color:var(--muted); padding:18px; margin-top:24px; }
+    footer .prompt{ font-weight:700; color:#042f2e; margin-top:8px; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="wrap">
+      <h1>Organ Donation Management System</h1>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="register.html">Register</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Contact form -->
+    <section class="card" aria-labelledby="contactHeading">
+      <h2 id="contactHeading">Contact Us</h2>
+      <p class="lead">Have a question, need help, or want to coordinate a donation? Send us a message and we'll respond promptly.</p>
+
+      <!-- POSTs to connect.php and tells PHP this is the contact form -->
+      <form id="contactForm" class="contact-form" action="connect.php" method="post" novalidate>
+        <input type="hidden" name="form_type" value="contact">
+        <div class="grid">
+          <div>
+            <label for="contact-name">Your Name</label>
+            <input type="text" id="contact-name" name="name" required placeholder="Full name">
+          </div>
+
+          <div>
+            <label for="contact-email">Your Email</label>
+            <input type="email" id="contact-email" name="email" required placeholder="you@example.com">
+          </div>
+
+          <div>
+            <label for="contact-phone">Phone (optional)</label>
+            <input type="text" id="contact-phone" name="phone" placeholder="+91 98765 43210">
+          </div>
+
+          <div>
+            <label for="contact-purpose">Purpose</label>
+            <select id="contact-purpose" name="purpose" required>
+              <option value="">-- Choose purpose --</option>
+              <option value="general">General question</option>
+              <option value="donor">Register as donor</option>
+              <option value="recipient">Register as recipient</option>
+              <option value="volunteer">Volunteer / Partnership</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div style="grid-column:1 / -1">
+            <label for="message">Your Message</label>
+            <textarea id="message" name="message" rows="6" required placeholder="Describe your request..."></textarea>
+          </div>
+        </div>
+
+        <div class="actions" style="margin-top:8px;">
+          <button type="submit" class="btn btn-primary">Send Message</button>
+          <button type="reset" class="btn btn-outline">Reset</button>
+          <div style="margin-left:auto" class="small">We aim to reply quickly</div>
+        </div>
+
+        <div id="toast" class="toast" role="status" aria-live="polite"></div>
+      </form>
+    </section>
+
+    <!-- Right column: contact details / quick links -->
+    <aside class="card" aria-label="Contact details">
+      <div class="contact-info">
+        <div class="info-item">
+          <strong>Immediate Help</strong>
+          <div class="small">If this is an emergency, call the hospital directly and then contact us for coordination.</div>
+          <div style="margin-top:10px;">
+            <a class="btn btn-primary" href="tel:+919791488767">Call Emergency: 9791488767</a>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <strong>Office</strong>
+          <div class="small">Arcadia grant ,premnagar Dehradun,Uttarakhand, PIN 248007</div>
+        </div>
+
+        <div class="info-item">
+          <strong>Email</strong>
+          <div class="small">Uttaranchalhospital@gmail.com</div>
+        </div>
+
+      </div>
+    </aside>
+  </main>
+
+  <footer>
+    © <span id="year"></span> Organ Donation Management System
+    <div class="prompt">We will contact you as soon as possible with prompt response.</div>
+  </footer>
+
+  <script>
+    // show current year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // show toast based on URL query from connect.php redirects
+    const toast = document.getElementById('toast');
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('status') === 'success' && params.get('form') === 'contact') {
+      toast.textContent = 'Thanks — your message has been received. We will contact you shortly.';
+      toast.style.display = 'block';
+      // hide after 6s and remove query params so refresh doesn't show again
+      setTimeout(()=> {
+        toast.style.display = 'none';
+        history.replaceState(null, '', location.pathname);
+      }, 6000);
+    } else if (params.get('status') === 'error' && params.get('form') === 'contact') {
+      toast.textContent = 'Sorry — there was an error saving your message. Try again later.';
+      toast.style.display = 'block';
+      setTimeout(()=> {
+        toast.style.display = 'none';
+        history.replaceState(null, '', location.pathname);
+      }, 6000);
+    }
+  </script>
+</body>
+</html>

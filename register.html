@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Organ Donation Management System</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --muted: #6b7280;
+      --accent: #0f766e;
+      --accent-2: #065f46;
+      --danger: #dc2626;
+      --radius: 12px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+      background: linear-gradient(180deg,var(--bg), #eef2f6 120%);
+      color:#0f172a;
+      -webkit-font-smoothing:antialiased;
+    }
+    header{
+      background: linear-gradient(90deg,var(--accent-2),var(--accent));
+      color:#fff;
+      padding:18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position:sticky;
+      top:0;
+      z-index:10;
+      box-shadow: 0 6px 18px rgba(2,6,23,0.12);
+    }
+    .wrap{ max-width:var(--max-width); margin:0 auto; padding:0 18px; display:flex; align-items:center; justify-content:space-between; gap:12px;}
+    header h1{ margin:0; font-size:1.05rem; letter-spacing:0.2px; }
+    nav{ display:flex; gap:8px; align-items:center; }
+    nav a{ color: #e6fffa; text-decoration:none; padding:8px 12px; border-radius:10px; font-weight:600; opacity:0.95; }
+    nav a:hover{ background: rgba(255,255,255,0.06); transform:translateY(-2px); }
+    main {
+      max-width: 1100px;
+      margin: 28px auto;
+      padding: 0 18px;
+    }
+    .toggle-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .toggle-buttons button {
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      background: #e5f7f5;
+      color: #065f46;
+      transition: all 0.15s ease;
+    }
+    .toggle-buttons button.active {
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(6, 95, 70, 0.2);
+    }
+    .toggle-buttons button:hover:not(.active) {
+      background: #d9f0ed;
+      transform: translateY(-1px);
+    }
+    .container {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 12px;
+      align-items: start;
+    }
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+    }
+    form .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    @media (max-width: 880px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+      form .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    label {
+      font-size: 0.85rem;
+      color: #334155;
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid #e6eef6;
+      background: linear-gradient(180deg, #fff, #fbfdff);
+      outline: none;
+      font-size: 0.95rem;
+      transition: box-shadow 0.14s ease, border-color 0.14s ease, transform 0.12s ease;
+      box-shadow: 0 2px 8px rgba(16, 24, 40, 0.02);
+    }
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="tel"]:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 8px 22px rgba(15, 118, 110, 0.08);
+      transform: translateY(-1px);
+    }
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 6px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      border: none;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+    }
+    .btn-primary {
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      color: white;
+      box-shadow: 0 8px 20px rgba(6, 95, 70, 0.14);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--accent-2);
+      border: 1px solid rgba(6, 95, 70, 0.12);
+      font-weight: 700;
+    }
+    .hidden {
+      display: none;
+    }
+    .consent {
+      margin-top: 10px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Organ Donation Management System</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="register.html">Register</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="toggle-buttons">
+      <button id="donorBtn" class="active">Register as Donor</button>
+      <button id="recipientBtn">Register as Recipient</button>
+    </div>
+
+    <div class="container">
+      <!-- Donor Form -->
+      <div id="donorFormCard" class="card">
+        <h2>Donor Registration Form</h2>
+        <p class="lead">Fill in your details to register as an organ donor.</p>
+
+        <!-- single form element for donor -->
+        <form id="donorForm" action="http://localhost/organshare/connect.php" method="POST">
+          <input type="hidden" name="form_type" value="donor">
+          <div class="grid">
+            <div class="form">
+              <label for="donorName">Full Name</label>
+              <input type="text" id="donorName" name="firstname" required>
+            </div>
+
+            <div class="field">
+              <label for="donorEmail">Email</label>
+              <input type="email" id="donorEmail" name="email" required>
+            </div>
+
+            <div class="field">
+              <label for="donorPhone">Phone Number</label>
+              <input type="tel" id="donorPhone" name="phone" required placeholder="+91 98765 43210">
+            </div>
+
+            <div class="field">
+              <label for="donorState">State</label>
+              <select id="donorState" name="state" required>
+                <option value="">-- Select state / UT --</option>
+                <option>Andhra Pradesh</option><option>Assam</option>
+                <option>Bihar</option><option>Delhi</option>
+                <option>Goa</option><option>Gujarat</option>
+                <option>Haryana</option><option>Jharkhand</option>
+                <option>Karnataka</option><option>Kerala</option>
+                <option>Madhya Pradesh</option><option>Maharashtra</option>
+                <option>Odisha</option><option>Punjab</option>
+                <option>Rajasthan</option><option>Tamil Nadu</option>
+                <option>Telangana</option><option>Uttar Pradesh</option>
+                <option>Uttarakhand</option><option>West Bengal</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="recBloodGroup">Blood Group</label>
+              <select id="recBloodGroup" name="bloodgroup" required>
+                <option value="">Select</option>
+                <option>A+</option><option>A-</option>
+                <option>B+</option><option>B-</option>
+                <option>O+</option><option>O-</option>
+                <option>AB+</option><option>AB-</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="neededOrgan">Organ to donate</label>
+              <select id="neededOrgan" name="organname" required>
+                <option value="">-- Select Organ --</option>
+                <option>Kidney</option><option>Liver</option>
+                <option>Heart</option><option>Lungs</option>
+                <option>Cornea</option><option>Pancreas</option>
+                <option>Bone marrow</option>              
+               </select>
+            </div>  
+
+            <div class="field" style="grid-column:1 / -1">
+              <label for="message">Additional Information</label>
+              <textarea id="message" name="notes" rows="4"></textarea>
+            </div>
+          </div>
+
+          <div class="consent">
+            <label>Do you provide your full consent for organ donation?</label><br>
+            <label><input type="radio" name="consent" value="yes" required> Yes</label>
+            <label><input type="radio" name="consent" value="no"> No</label>
+          </div>
+
+          <div class="actions">
+            <input type="submit" class="btn btn-primary" value="register" name="register">
+            <button type="reset" class="btn btn-outline">Reset</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Recipient Form -->
+      <div id="recipientFormCard" class="card hidden">
+        <h2>Recipient Registration Form</h2>
+        <p class="lead">Request an organ as a recipient by filling this form.</p>
+
+        <form id="recipientForm" action="connect.php" method="POST">
+          <input type="hidden" name="form_type" value="recipient">
+          <div class="grid">
+            <div class="field">
+              <label for="recName">Full Name</label>
+              <input type="text" id="recName" name="fullname" required>
+            </div>
+
+            <div class="field">
+              <label for="recEmail">Email</label>
+              <input type="email" id="recEmail" name="email" required>
+            </div>
+
+            <div class="field">
+              <label for="recPhone">Phone Number</label>
+              <input type="tel" id="recPhone" name="phone" required placeholder="+91 98765 43210">
+            </div>
+
+            <div class="field">
+              <label for="recState">State</label>
+              <select id="recState" name="state" required>
+                <option value="">-- Select state / UT --</option>
+                <option>Andhra Pradesh</option><option>Assam</option><option>Bihar</option>
+                <option>Delhi</option><option>Goa</option><option>Gujarat</option>
+                <option>Karnataka</option><option>Kerala</option><option>Maharashtra</option>
+                <option>Odisha</option><option>Punjab</option><option>Rajasthan</option>
+                <option>Tamil Nadu</option><option>Telangana</option><option>Uttar Pradesh</option>
+                <option>West Bengal</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="recBloodGroup">Blood Group</label>
+              <select id="recBloodGroup" name="bloodgroup" required>
+                <option value="">Select</option>
+                <option>A+</option><option>A-</option>
+                <option>B+</option><option>B-</option>
+                <option>O+</option><option>O-</option>
+                <option>AB+</option><option>AB-</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="neededOrganRec">Required Organ</label>
+              <select id="neededOrganRec" name="organname" required>
+                <option value="">-- Select Organ --</option>
+                <option>Kidney</option><option>Liver</option>
+                <option>Heart</option><option>Lungs</option>
+                <option>Cornea</option><option>Pancreas</option>
+                <option>Bone marrow</option>              
+               </select>
+            </div>
+
+            <div class="field">
+              <label for="urgency">Urgency Level</label>
+              <select id="urgency" name="urgency" required>
+                <option value="">-- Choose Level --</option>
+                <option>Critical</option>
+                <option>High</option>
+                <option>Moderate</option>
+                <option>Low</option>
+              </select>
+            </div>
+
+            <div class="field" style="grid-column:1 / -1">
+              <label for="recNote">Medical Details / Doctor Notes</label>
+              <textarea id="recNote" name="notes" rows="4" placeholder="Enter additional health details or doctor name..."></textarea>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button type="submit" class="btn btn-primary">Submit Recipient Form</button>
+            <button type="reset" class="btn btn-outline">Reset</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Info section -->
+      <aside class="card">
+        <h2>Guidelines</h2>
+        <ul style="list-style:none; padding:0; margin:0;">
+          <li><strong>For Donors:</strong> Ensure your family is aware of your decision.</li>
+          <li><strong>For Recipients:</strong> Provide accurate medical details for proper matching.</li>
+          <li><strong>Note:</strong> All data is handled confidentially.</li>
+        </ul>
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    const donorBtn = document.getElementById('donorBtn');
+    const recipientBtn = document.getElementById('recipientBtn');
+    const donorCard = document.getElementById('donorFormCard');
+    const recipientCard = document.getElementById('recipientFormCard');
+
+    donorBtn.addEventListener('click', () => {
+      donorCard.classList.remove('hidden');
+      recipientCard.classList.add('hidden');
+      donorBtn.classList.add('active');
+      recipientBtn.classList.remove('active');
+    });
+
+    recipientBtn.addEventListener('click', () => {
+      recipientCard.classList.remove('hidden');
+      donorCard.classList.add('hidden');
+      recipientBtn.classList.add('active');
+      donorBtn.classList.remove('active');
+    });
+  </script>
+</body>
+
+</html>
